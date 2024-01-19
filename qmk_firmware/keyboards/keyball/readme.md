@@ -1,27 +1,28 @@
-# Keyball series
+# Keyball61用 カスタムファームウェア
 
-This directory includes source code of Keyball keyboard series:
 
-| Name          | Description
-|---------------|-------------------------------------------------------------
-|[Keyball46](./keyball46)|A split keyboard with 46 vertically staggered keys and 34mm track ball.
-|[Keyball61](./keyball61)|A split keyboard with 61 vertically staggered keys and 34mm track ball.
-|[Keyball39](./keyball39)|A split keyboard with 39 vertically staggered keys and 34mm track ball.
-|[ONE47](./one47)|A keyboard with 47 vertically keys and 34mm trackball. It will support BLE Micro Pro.
-|[Keyball44](./keyball44)|A split keyboard with 44 vertically staggered keys and 34mm track ball.
+## オリジナルの情報はこちらを参照してください
 
-* Keyboard Designer: [@Yowkees](https://twitter.com/Yowkees)  
-* Hardware Supported: ProMicro like footprint
-* Hardware Availability: See [Where to Buy](../../../README.md#where-to-buy)
+https://github.com/Yowkees/keyball
 
-See each directories for each keyboards in a table above.
+
+## オリジナルからの変更点
+
+1. Automouse Layer の有効化
+
+- QMK標準機能の `POINTING_DEVICE_AUTO_MOUSE_ENABLE` を有効にしています。トラボを動かすと Layer2が有効になります。 
+- 通常この機能を有効にした場合、MOUSE関連のキーコード以外が謳歌された場合デフォルトレイヤーに戻りますが `SCRL_MO` を押下した場合は戻らないようにしています。
+
+2. サブ側(USBを接続していない側)のOLEDに`ビルド番号` `keymap名` `Uptime` を表示するようにしています。
+
+これらのカスタマイズを行うため一部LED効果をコメントアウトしています。
 
 ## How to build
 
 1. Check out this repository.
 
     ```console
-    $ git clone https://github.com/Yowkees/keyball.git keyball
+    $ git clone https://github.com/hiroki-tagami/keyball.git keyball
     ```
 
 2. Check out [qmk/qmk_firmware](https://github.com/qmk/qmk_firmware/) repository in another place.
@@ -64,6 +65,7 @@ There are three keymaps provided at least:
 * `test` - Easy-to-use version for checking operation at build time
 * `default` - Base version for creating your own customized firmware
 
-## How to create your keymap
+## 参考資料
 
-(TO BE DOCUMENTED)
+[keycode一覧](https://github.com/qmk/qmk_firmware/blob/master/docs/keycodes.md)
+[OLEDの基礎知識](https://qiita.com/koktoh/items/3d057e747915aee814cd)
