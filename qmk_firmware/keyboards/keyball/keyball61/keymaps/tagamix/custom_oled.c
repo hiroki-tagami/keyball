@@ -1,6 +1,34 @@
 #include QMK_KEYBOARD_H
 
+#ifdef CONSOLE_ENABLE
+  #include <print.h>
+#endif
+
 #include "version.h"
+
+static unsigned int type_count = 0;
+void count_type(void) {
+    type_count++;
+}
+
+// キーを押す・離すタイミングで呼ばれる関数
+// 関数自体なければ関数ごと追加、あれば`#ifdef OLED_ENABLE`内だけ追加する
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (record->event.pressed) {
+        count_type();
+    }
+    return true;
+}
+
+
+void oled_write_type_count(void) {
+    static char type_count_str[7];
+    oled_write_P(PSTR("Count:"), false);
+    itoa(type_count, type_count_str, 10);
+    oled_write_ln(type_count_str, false);
+}
+
+
 
 void oled_write_2digit(unsigned int digit) {
     static char buf[6];
@@ -26,17 +54,13 @@ void oled_write_uptime(void) {
     oled_write_char('\n', false);
 }
 
-
-static void render_version(void) {
-    oled_set_cursor(0, 0);
-    oled_write_P(PSTR("keymap:"), false);
-    oled_write_ln_P(PSTR(QMK_KEYMAP), false);
-}
-
 // カスタム内容表示
 void keyball_oled_render_mysub(void) {
-    render_version();
+    //oled_set_cursor(0, 0);
+    oled_write_P(PSTR("Keymap:"), false);
+    oled_write_ln_P(PSTR(QMK_KEYMAP), false);
     oled_write_uptime();
-    oled_write_P(PSTR("Build:"), false);
-    oled_write_ln_P(PSTR(QMK_BUILDDATE), false);
+    //oled_write_type_count();
+    //oled_write_P(PSTR("Ref:"), false);
+    oled_write_P(PSTR(QMK_BUILDDATE), false);
 }
